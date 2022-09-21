@@ -29,28 +29,28 @@ function CuttingTool() {
 					drawing = true;
 					//save the current pixel Array
 					loadPixels();
-					console.log("startMouseX ======== -1 ");
+					console.log("Rect create clicked up-->" + startMouseX + ' : ' + startMouseY);
 				} else{
 					noFill();
-					stroke(102);
+					stroke(0);
 					//update the screen with the saved pixels to hide any previous
 					//line between mouse pressed and released
 					updatePixels();
 
 					//draw the line
-					rect(startMouseX, startMouseY, mouseX-startMouseX, mouseY-startMouseY);
-					console.log("startMouseX >>>>>>>>> -1 ");
+					rect(startMouseX, startMouseY, mouseX - startMouseX, mouseY - startMouseY);
+					console.log("Rect create clicked on-->" + mouseX + ' : ' + mouseY);
 				}
 			} else {
 				if(moveMouseX == -1){
-					console.log("Move moveMouseX ======== -1");
 					moveMouseX = mouseX;
 					moveMouseY = mouseY;
 					//save the current pixel Array
+					console.log("Rect move clicked up-->" + moveMouseX + ' : ' + moveMouseY);
 					loadPixels();
 				} else {
-					console.log("Move moveMouseX >>>>>>>>> -1");
-
+					updatePixels();
+					console.log("Rect move clicked on-->" + mouseX + ' : ' + mouseY);
 				}
 				drawing = true;
 			}
@@ -62,7 +62,7 @@ function CuttingTool() {
 				endMouseX = mouseX;
 				endMouseY = mouseY;
 				drawing = false;
-				console.log(" drawing -- areaSet: false");
+				console.log("Rect create click off-->" + endMouseX + ' : ' + endMouseY);
 			} else {
 				console.log("drawing -- areaSet : true");
 				moveWidth = mouseX - moveMouseX;
@@ -80,14 +80,19 @@ function CuttingTool() {
 					moveMouseX = -1;
 					moveMouseY = -1;
 
-					getArea = get(startMouseX, startMouseY, endMouseX-startMouseX+1, endMouseY-startMouseY+1);
+					getArea = get(startMouseX + 3, startMouseY + 3, endMouseX - startMouseX - 8, endMouseY - startMouseY - 8);
 					noStroke();
 					fill(255);
-					rect(startMouseX, startMouseY,  endMouseX-startMouseX+1, endMouseY-startMouseY+1);
+					rect(startMouseX - 1, startMouseY - 1,  endMouseX - startMouseX + 3, endMouseY - startMouseY + 3);
 					startMouseX += moveWidth;
-					startMouseY += moveWidth;
+					startMouseY += moveHeight;
+					console.log("22-->" + startMouseX + ' : ' + startMouseY);
 					set(startMouseX, startMouseY, getArea);
-					console.log(moveWidth, "  ", moveHeight);
+					//console.log(moveWidth, "  ", moveHeight);
+					updatePixels();
+					startMouseX = -1;
+					startMouseY = -1;
+					areaSet = false;
 				}
 			}
 		}

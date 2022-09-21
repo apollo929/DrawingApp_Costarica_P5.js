@@ -20,7 +20,7 @@ function EraserTool() {
 			else{
 				noStroke();
 				fill(255);
-  			rect(mouseX-offsetX, mouseY-offsetY, offsetX * 2, offsetY * 2);
+  				rect(mouseX-offsetX, mouseY-offsetY, offsetX * 2, offsetY * 2);
 			}
 		}
 		else{

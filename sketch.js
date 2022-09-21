@@ -21,6 +21,9 @@ function setup() {
 	//add the tools to the toolbox.
 	toolbox.addTool(new FreehandTool());
 	toolbox.addTool(new LineToTool());
+
+	toolbox.addTool(new CurvedTool());
+
 	toolbox.addTool(new SprayCanTool());
 	toolbox.addTool(new mirrorDrawTool());
 	toolbox.addTool(new stampTool());

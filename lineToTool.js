@@ -9,6 +9,7 @@ function LineToTool(){
 	var startMouseY = -1;
 	var drawing = false;
 
+	var count = 0;
 	//draws the line to the screen 
 	this.draw = function(){
 
@@ -21,6 +22,7 @@ function LineToTool(){
 				drawing = true;
 				//save the current pixel Array
 				loadPixels();
+				console.log('1=>' + mouseX + ' ' + mouseY);
 			}
 
 			else{
@@ -29,17 +31,20 @@ function LineToTool(){
 				updatePixels();
 				//draw the line
 				line(startMouseX, startMouseY, mouseX, mouseY);
+				//console.log(mouseX + ' ' + mouseY);
 			}
 
 		}
 
 		else if(drawing){
+			console.log(count++);
 			//save the pixels with the most recent line and reset the
 			//drawing bool and start locations
 			loadPixels();
 			drawing = false;
 			startMouseX = -1;
 			startMouseY = -1;
+			console.log('2=>' + mouseX + ' ' + mouseY);
 		}
 	};
 

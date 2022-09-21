@@ -1,62 +1,77 @@
-
-// function stampTool(){
-	
-// 	this.icon = "assets/stampTool.jpg";
-// 	this.name = "stampTool";
-
-// 	var img;
-//     var starSizeSlider;
-//     var nStarSlider;
-
-//     this.preload = function(){
-//         img = loadImage('assets\stampTool.jpg');
-//     }
-
-//     this.setup = function(){
-//         //createCanvas(800, 800);
-
-//         // starSizeSlider = 5;//createSlider(5, 50, 20);
-//         // //starSizeSlider.parent("#sizeOfStarControl");
-
-//         // nStarSlider = 5;//createSlider(1, 20, 5);
-//         // //nStarSlider.parent("#numberOfStarsControl");
-//     }
-
-//     this.draw = function(){
-//         if(mouseIsPressed){
-//             // for(var i=0; i<nStarSlider.value(); i++){
-//             //     var starSize = starSizeSlider.value();
-//                 var starX = mouseX;//random( (mouseX - starSize/2) - 10, (mouseX - starSize/2) + 10 );
-//                 var starY = mouseY;//random( (mouseY - starSize/2) - 10, (mouseY - starSize/2) + 10 );
-                
-//                 image(img, startMou, starY, 50, 50);
-//             //}
-//         }
-//     }  
-// }
-// //a tool for drawing straight lines to the screen. Allows the user to preview
-// //the a line to the current mouse position before drawing the line to the 
-// //pixel array.
 function stampTool(){
+	
 	this.icon = "assets/stampTool.jpg";
 	this.name = "stampTool";
 
-    this.preload = function(){
-        img = loadImage('assets\stampTool.jpg');
-    }
+	var startMouseX1 = -1;
+	var startMouseY1 = -1;
+	var startMouseX2 = -1;
+	var startMouseY2 = -1;
+	var startMouseX3 = -1;
+	var startMouseY3 = -1;
 
-
+	var drawing = false;
+	var btncount = 0;
+    var getArea;
+	
 	//draws the line to the screen 
 	this.draw = function(){
 
 		//only draw when mouse is clicked
 		if(mouseIsPressed){
 			//if it's the start of drawing a new line
-				startMouseX = mouseX;
-				startMouseY = mouseY;
+			if(btncount == 0){
+				if(startMouseX1 == -1){
+					startMouseX1 = mouseX;
+					startMouseY1 = mouseY;
+					console.log('1=> ' + startMouseX1 + ' ' + startMouseY1);
+					drawing = true;
+					loadPixels();
+				}
+				else{
+					updatePixels();
 			
-                image(img, startMouseX, startMouseY, 50, 50);
-
+				}
+			}
+			if(btncount == 1){
+				if(startMouseX2 == -1){
+					startMouseX2 = mouseX;
+					startMouseY2 = mouseY;
+					console.log('3=> ' + startMouseX2 + ' ' + startMouseY2);
+					drawing = true;
+					loadPixels();
+				}
+				else{
+					updatePixels();
+					startMouseX3 = mouseX;
+					startMouseY3 = mouseY;
+					console.log('4=> ' + startMouseX3 + ' ' + startMouseY3);
+					getArea = get((startMouseX1 + startMouseX3 - startMouseX2 - 4), (startMouseY1 + startMouseY3 - startMouseY2 - 4), 8, 8);
+					
+					set(startMouseX3 - 4, startMouseY3 - 4, getArea);
+				}
+			}
 		}
-	}
+
+		else if(drawing){
+			if(btncount == 0){
+				loadPixels();
+				startMouseX1 = mouseX;
+				startMouseY1 = mouseY;
+				console.log('2=> ' + startMouseX1 + ' ' + startMouseY1);
+				drawing = false;
+			}	
+			if(btncount == 1){
+		 		loadPixels();				
+				drawing = false;
+			}	
+			btncount++;
+			if(btncount == 2){
+				startMouseX1 = -1;
+				startMouseX2 = -1;
+				btncount = 0;
+				drawing = false;
+			}
+		}
+	};
 }
